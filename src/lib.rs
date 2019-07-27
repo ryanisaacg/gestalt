@@ -20,7 +20,7 @@ pub enum Location {
     /// Config should store application behavior configs, and will be long-lived
     Config,
     /// Data will store application data, and will be long-lived
-    Data
+    Data,
 }
 
 /// Save some arbitrary data to the given location using Serde
@@ -56,8 +56,12 @@ pub enum Location {
 /// let player1 = load::<Player>(Location::Cache, "mygame", "player1").expect("Could not load Player 1");
 /// let player2 = load::<Player>(Location::Cache, "mygame", "player2").expect("Could not load Player 2");
 /// ```
-pub fn save<T: Serialize>(location: Location, appname: &str, profile: &str, data: &T)
-        -> Result<(), SaveError> {
+pub fn save<T: Serialize>(
+    location: Location,
+    appname: &str,
+    profile: &str,
+    data: &T,
+) -> Result<(), SaveError> {
     platform::save(location, appname, profile, data)
 }
 
@@ -69,7 +73,12 @@ pub fn save<T: Serialize>(location: Location, appname: &str, profile: &str, data
 /// The appname should be some constant; this is used to name the file to place the data in on
 /// desktop platforms. The profile should allow different things to save for the same app, such as
 /// save for different players in a game.
-pub fn save_raw(location: Location, appname: &str, profile: &str, data: &[u8]) -> Result<(), SaveError> {
+pub fn save_raw(
+    location: Location,
+    appname: &str,
+    profile: &str,
+    data: &[u8],
+) -> Result<(), SaveError> {
     platform::save_raw(location, appname, profile, data)
 }
 
@@ -80,7 +89,9 @@ pub fn save_raw(location: Location, appname: &str, profile: &str, data: &[u8]) -
 ///
 /// See [save](fn.save.html) for an example of saving and then loading some data.
 pub fn load<T>(location: Location, appname: &str, profile: &str) -> Result<T, SaveError>
-        where for<'de> T: Deserialize<'de> {
+where
+    for<'de> T: Deserialize<'de>,
+{
     platform::load(location, appname, profile)
 }
 
@@ -91,7 +102,6 @@ pub fn load<T>(location: Location, appname: &str, profile: &str) -> Result<T, Sa
 pub fn load_raw(location: Location, appname: &str, profile: &str) -> Result<Vec<u8>, SaveError> {
     platform::load_raw(location, appname, profile)
 }
-
 
 // Select which platform implementation to use based on provided features
 

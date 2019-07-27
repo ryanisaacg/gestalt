@@ -15,26 +15,36 @@ mod backend;
 #[path = "web/web_sys.rs"]
 mod backend;
 
-pub fn save<T: Serialize>(location: Location, _appname: &str, profile: &str, data: &T)
-        -> Result<(), SaveError> {
+pub fn save<T: Serialize>(
+    location: Location,
+    _appname: &str,
+    profile: &str,
+    data: &T,
+) -> Result<(), SaveError> {
     backend::set_storage(
         location == Location::Cache,
         profile,
-        serde_json::to_string(data)?.as_str()
+        serde_json::to_string(data)?.as_str(),
     )
 }
 
-pub fn save_raw(location: Location, _appname: &str, profile: &str, data: &[u8])
-    -> Result<(), SaveError> {
+pub fn save_raw(
+    location: Location,
+    _appname: &str,
+    profile: &str,
+    data: &[u8],
+) -> Result<(), SaveError> {
     backend::set_storage(
         location == Location::Cache,
         profile,
-        base64::encode(data).as_str()
+        base64::encode(data).as_str(),
     )
 }
 
 pub fn load<T>(location: Location, _appname: &str, profile: &str) -> Result<T, SaveError>
-        where for<'de> T: Deserialize<'de> {
+where
+    for<'de> T: Deserialize<'de>,
+{
     let value = backend::get_storage(location == Location::Cache, profile)?;
 
     Ok(serde_json::from_str(value.as_str())?)

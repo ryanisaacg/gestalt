@@ -1,9 +1,5 @@
 use serde_json::Error as SerdeError;
-use std::{
-    error::Error,
-    fmt,
-    io::Error as IOError,
-};
+use std::{error::Error, fmt, io::Error as IOError};
 #[derive(Debug)]
 /// An error that can occur during a save or load operation
 pub enum SaveError {
@@ -21,7 +17,7 @@ pub enum SaveError {
     ///
     /// On desktop this will more likely be reported as an IO error, but on web it will be a
     /// SaveNotFound
-    SaveNotFound(String)
+    SaveNotFound(String),
 }
 
 impl From<SerdeError> for SaveError {
@@ -50,7 +46,7 @@ impl Error for SaveError {
             SaveError::IOError(err) => err.description(),
             SaveError::SaveWriteFailed => "The save could not be written to local storage",
             SaveError::SaveLocationNotFound => "The current user has no home directory",
-            SaveError::SaveNotFound(_) => "The given save profile was not found"
+            SaveError::SaveNotFound(_) => "The given save profile was not found",
         }
     }
 
@@ -59,9 +55,9 @@ impl Error for SaveError {
             SaveError::SerdeError(err) => Some(err),
             SaveError::IOError(err) => Some(err),
             SaveError::SaveLocationNotFound
-                | SaveError::SaveWriteFailed
-                | SaveError::SaveNotFound(_)
-                | SaveError::DecodeError => None
+            | SaveError::SaveWriteFailed
+            | SaveError::SaveNotFound(_)
+            | SaveError::DecodeError => None,
         }
     }
 }

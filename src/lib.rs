@@ -1,3 +1,16 @@
+//! Cross-platform configuration and data saving between desktop and web
+//!
+//! On desktop, saving is backed by filesystem and APIs and uses the platform-specific data
+//! locations. On web, saving is backed by the LocalStorage browser API.
+
+#![deny(
+    bare_trait_objects,
+    missing_docs,
+    unused_extern_crates,
+    unused_import_braces,
+    unused_qualifications
+)]
+
 use serde::{Deserialize, Serialize};
 
 mod error;

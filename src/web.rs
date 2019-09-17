@@ -1,17 +1,17 @@
 use super::{Location, SaveError};
 use serde::{Deserialize, Serialize};
 
-#[cfg(all(feature = "stdweb", feature = "web_sys"))]
-compile_error!("stdweb and web_sys may not both be enabled at once, please pick one");
+#[cfg(all(feature = "stdweb", feature = "web-sys"))]
+compile_error!("stdweb and web-sys may not both be enabled at once, please pick one");
 
-#[cfg(all(not(feature = "stdweb"), not(feature = "web_sys")))]
-compile_error!("Please enable one of stdweb or web_sys to compile for wasm");
+#[cfg(all(not(feature = "stdweb"), not(feature = "web-sys")))]
+compile_error!("Please enable one of stdweb or web-sys to compile for wasm");
 
 #[cfg(feature = "stdweb")]
 #[path = "web/stdweb.rs"]
 mod backend;
 
-#[cfg(feature = "web_sys")]
+#[cfg(feature = "web-sys")]
 #[path = "web/web_sys.rs"]
 mod backend;
 

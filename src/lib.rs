@@ -2,6 +2,10 @@
 //!
 //! On desktop, saving is backed by filesystem and APIs and uses the platform-specific data
 //! locations. On web, saving is backed by the LocalStorage browser API.
+//! As an end user, all you need to worry about is which `Location` you want to save to:
+//! - `Cache`, which is short-lived and may not persist between runs of the program
+//! - `Config`, for storing long-term configuration
+//! - `Data`, for storing long-term large data blobs.
 
 #![deny(
     bare_trait_objects,
@@ -24,7 +28,7 @@ pub use serde;
 /// desktop specification), and on web it determines which various web storage APIs it should use.
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
 pub enum Location {
-    /// Cache should be used for extremely short-lived data
+    /// Cache should be used for short-lived data
     ///
     /// Cached data has no lifetime guarantee, and should be expected to be cleared between runs of
     /// the program. On web, it is guaranteed when the user leaves the application and returns that
@@ -50,7 +54,7 @@ pub enum Location {
 /// parameter to `load` so Rust cannot infer the type.
 ///
 /// ```
-/// use quick_saving::{Location, save, load};
+/// use gestalt::{Location, save, load};
 /// use serde::{Serialize, Deserialize};
 ///
 /// #[derive(Serialize, Deserialize)]
